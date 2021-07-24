@@ -207,9 +207,8 @@ class Issue(object):
         if conf.use_bugzilla_id is True:
             print("Using original issue id")
             data["iid"] = self.bug_id
-            del data["sudo"]
-        else:
-            self.headers["sudo"] = self.sudo
+
+        self.headers["sudo"] = self.sudo
 
         print(self.headers)
         print(data)
