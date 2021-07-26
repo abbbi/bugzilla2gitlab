@@ -79,7 +79,12 @@ def get_bugzilla_bug(bugzilla_url, bug_id):
     Read bug XML, return all fields and values in a dictionary.
     """
     bug_xml = _fetch_bug_content(bugzilla_url, bug_id)
-    tree = ElementTree.fromstring(bug_xml)
+
+    try:
+        tree = ElementTree.fromstring(bug_xml)
+    except Exception as e:
+        print("Unable to parse bugzilla XML: {}".format(e))
+        return None
 
     bug_fields = {
         "long_desc": [],

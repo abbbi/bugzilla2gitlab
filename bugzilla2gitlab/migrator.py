@@ -23,5 +23,12 @@ class Migrator:
         """
         print("Migrating bug {}".format(bugzilla_bug_id))
         fields = get_bugzilla_bug(self.conf.bugzilla_base_url, bugzilla_bug_id)
+        if fields is None:
+            print(
+                "Unable to get required fields for bug id: {}, skipping".format(
+                    bugzilla_bug_id
+                )
+            )
+            return
         issue_thread = IssueThread(self.conf, fields)
         issue_thread.save()
