@@ -25,7 +25,7 @@ class Migrator:
         fields = get_bugzilla_bug(self.conf.bugzilla_base_url, bugzilla_bug_id)
         if fields is None:
             print(
-                "Unable to get required fields for bug id: {}, skipping".format(
+                "ERROR: Unable to get required fields for bug id: {}, skipping".format(
                     bugzilla_bug_id
                 )
             )
