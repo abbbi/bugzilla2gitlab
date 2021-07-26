@@ -87,7 +87,6 @@ def get_gitlab_issue(gitlab_base_url, gitlab_project_id, bug, headers, verify):
     except Exception as e:
         return False
 
-
 def get_gitlab_milestone(gitlab_base_url, gitlab_project_id, title, headers, verify):
     url = "{}/projects/{}/milestones?title={}".format(
         gitlab_base_url, gitlab_project_id, title
