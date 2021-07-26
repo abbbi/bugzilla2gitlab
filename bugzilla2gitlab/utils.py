@@ -99,10 +99,9 @@ def get_gitlab_milestone(gitlab_base_url, gitlab_project_id, title, headers, ver
                 ms[0]["id"], title, ms[0]["project_id"]
             )
         )
-        return True
+        return ms[0]["id"]
     except Exception as e:
-        print(e)
-        return False
+        return None
 
 
 def get_bugzilla_bug(bugzilla_url, bug_id):
@@ -110,6 +109,9 @@ def get_bugzilla_bug(bugzilla_url, bug_id):
     Read bug XML, return all fields and values in a dictionary.
     """
     bug_xml = _fetch_bug_content(bugzilla_url, bug_id)
+
+    if b"InvalidBug" in bug_xml:
+        return None
 
     try:
         tree = ElementTree.fromstring(bug_xml)

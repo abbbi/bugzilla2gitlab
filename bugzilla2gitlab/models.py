@@ -129,16 +129,16 @@ class Issue:
         Looks up milestone id given its title or creates a new one.
         """
 
-        if (
-            get_gitlab_milestone(
-                CONF.gitlab_base_url,
-                CONF.gitlab_project_id,
-                milestone,
-                self.headers,
-                CONF.verify,
-            )
-            is True
-        ):
+        ms = None
+        ms = get_gitlab_milestone(
+            CONF.gitlab_base_url,
+            CONF.gitlab_project_id,
+            milestone,
+            self.headers,
+            CONF.verify,
+        )
+        if ms is not None:
+            self.milestone_id = ms
             return
 
         if milestone not in CONF.gitlab_milestones:
