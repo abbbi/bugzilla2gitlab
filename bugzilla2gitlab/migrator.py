@@ -3,6 +3,7 @@ from .models import IssueThread
 from .utils import bugzilla_login, get_bugzilla_bug, validate_list, get_gitlab_issue
 
 from os import getpid
+import sys
 
 
 class Migrator:
@@ -21,7 +22,7 @@ class Migrator:
                 self.conf.bugzilla_user,
                 self.conf.bugzilla_password,
             )
-        print("{} Buglist: {}".format(pid, bug_list))
+        #print("{} Buglist: {}".format(pid, bug_list))
         for bug in bug_list:
             if not get_gitlab_issue(
                 self.conf.gitlab_base_url,

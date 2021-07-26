@@ -9,6 +9,11 @@ import argparse
 import concurrent.futures
 from bugzilla2gitlab import Migrator
 
+def chunks(seq, size):
+    # split into X chunks for 10 workers
+    # should match amount of workers
+    return (seq[i::size] for i in range(size))
+
 def main():
     parser = argparse.ArgumentParser(description='Migrate bugs from Bugzilla to GitLab Issues.')
     parser.add_argument('bug_list', metavar="BUGLIST",
@@ -23,9 +28,9 @@ def main():
 
     client = Migrator(config_path=args.conf_dir)
     with concurrent.futures.ProcessPoolExecutor(
-        max_workers=5
+        max_workers=10
     ) as  executor:
-        fut = {executor.submit(client.migrate, [b]): b for b in bugs}
+        fut = {executor.submit(client.migrate, b): b for b in chunks(bugs,10)}
         for res in concurrent.futures.as_completed(fut):
             try:
                 # no result returned, so simply tell
