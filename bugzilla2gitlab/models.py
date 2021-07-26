@@ -1,6 +1,12 @@
 import re
 
-from .utils import _perform_request, format_datetime, format_utc, markdown_table_row
+from .utils import (
+    _perform_request,
+    format_datetime,
+    format_utc,
+    markdown_table_row,
+    get_gitlab_milestone,
+)
 
 CONF = None
 
@@ -122,6 +128,19 @@ class Issue:
         """
         Looks up milestone id given its title or creates a new one.
         """
+
+        if (
+            get_gitlab_milestone(
+                CONF.gitlab_base_url,
+                CONF.gitlab_project_id,
+                milestone,
+                self.headers,
+                CONF.verify,
+            )
+            is True
+        ):
+            return
+
         if milestone not in CONF.gitlab_milestones:
             print("Create milestone: {}".format(milestone))
             url = "{}/projects/{}/milestones".format(

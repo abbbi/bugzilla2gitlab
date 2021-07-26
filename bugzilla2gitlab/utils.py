@@ -88,6 +88,23 @@ def get_gitlab_issue(gitlab_base_url, gitlab_project_id, bug, headers, verify):
         return False
 
 
+def get_gitlab_milestone(gitlab_base_url, gitlab_project_id, title, headers, verify):
+    url = "{}/projects/{}/milestones?title={}".format(
+        gitlab_base_url, gitlab_project_id, title
+    )
+    try:
+        ms = _perform_request(url, "get", headers=headers, verify=verify, json=True)
+        print(
+            "Milestone with id [{}] title [{}] in project [{}] already exists, skipping".format(
+                ms[0]["id"], title, ms[0]["project_id"]
+            )
+        )
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
 def get_bugzilla_bug(bugzilla_url, bug_id):
     """
     Read bug XML, return all fields and values in a dictionary.
