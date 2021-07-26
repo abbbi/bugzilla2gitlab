@@ -32,8 +32,9 @@ def main():
         fut = {executor.submit(client.migrate, b): b for b in chunks(bugs, 10)}
         for res in concurrent.futures.as_completed(fut):
             try:
-                print(res.result())
-                print("exit")
+                # no result returned, so simply tell
+                # if worker is done..
+                print("Worker exited success")
             except:
                 raise
                 sys.exit(1)
