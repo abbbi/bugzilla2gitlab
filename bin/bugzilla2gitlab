@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-""" 
+"""
 Command-line interface for bugzilla2gitlab.
 """
 

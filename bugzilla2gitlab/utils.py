@@ -173,7 +173,7 @@ def validate_list(integer_list):
         try:
             int(i)
         except ValueError:
-            raise Exception(
-                "{} is not able to be parsed as an integer, "
-                "and is therefore an invalid bug id.".format(i)
-            ) from ValueError
+            print(
+                "ERROR: {} is not able to be parsed as an integer, "
+                "and is therefore an invalid bug id: Skipping".format(i)
+            )
