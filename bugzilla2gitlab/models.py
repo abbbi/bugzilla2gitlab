@@ -276,7 +276,6 @@ class Issue:
         data = {k: v for k, v in self.__dict__.items() if k in self.data_fields}
 
         if CONF.use_bugzilla_id is True:
-            print("Using original issue id")
             data["iid"] = self.bug_id
 
         self.headers["sudo"] = self.sudo
