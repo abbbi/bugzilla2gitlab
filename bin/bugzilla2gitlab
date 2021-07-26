@@ -4,8 +4,14 @@
 Command-line interface for bugzilla2gitlab.
 """
 
+import sys
 import argparse
+import concurrent.futures
 from bugzilla2gitlab import Migrator
+
+def chunks(l, n):
+    for i in range(0, n):
+        yield l[i::n]
 
 def main():
     parser = argparse.ArgumentParser(description='Migrate bugs from Bugzilla to GitLab Issues.')
@@ -20,7 +26,17 @@ def main():
         bugs = f.read().splitlines()
 
     client = Migrator(config_path=args.conf_dir)
-    client.migrate(bugs)
+    with concurrent.futures.ProcessPoolExecutor(
+        max_workers=5
+    ) as  executor:
+        fut = {executor.submit(client.migrate, b): b for b in chunks(bugs, 5)}
+        for res in concurrent.futures.as_completed(fut):
+            try:
+                print(res.result())
+                print("exit")
+            except:
+                raise
+                sys.exit(1)
 
 if __name__ == "__main__":
     main()
