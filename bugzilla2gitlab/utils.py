@@ -112,12 +112,13 @@ def get_bugzilla_bug(bugzilla_url, bug_id):
     bug_xml = _fetch_bug_content(bugzilla_url, bug_id)
 
     if b"InvalidBug" in bug_xml:
+        print("ERROR: Cant fetch bug information, bugzilla api responds with invalid, bug: {}".format(bug_id))
         return None
 
     try:
         tree = ElementTree.fromstring(bug_xml)
     except Exception as e:
-        print("Unable to parse bugzilla XML: {}".format(e))
+        print("ERROR: Unable to parse bugzilla XML: {}".format(e))
         return None
 
     bug_fields = {
