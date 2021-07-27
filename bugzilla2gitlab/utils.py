@@ -43,7 +43,7 @@ def _perform_request(
             return result.json()
         return result
 
-    if not b'Duplicated issue' in result.reason:
+    if not 'Duplicated issue' in result.reason:
         raise Exception(
             "{} failed requests: [{}] Response: [{}] Request data: [{}] Url: [{}] Headers: [{}]".format(
                 result.status_code, result.reason, result.content, data, url, headers
