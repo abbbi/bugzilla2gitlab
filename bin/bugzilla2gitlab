@@ -36,11 +36,10 @@ def main():
                 # no result returned, so simply tell
                 # if worker is done..
                 pid = res.result()
-                print("Worker with pid {} exited success".format(pid))
+                print("SUCCESS: Worker with pid {} exited success".format(pid))
             except Exception as e:
-                print("Worker with pid {} exited with error".format(pid))
-                print(e)
-                sys.exit(1)
+                print("FATAL: Worker with exited with error: {}".format(e))
+                raise
 
 if __name__ == "__main__":
     main()

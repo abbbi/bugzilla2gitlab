@@ -22,7 +22,6 @@ class Migrator:
                 self.conf.bugzilla_user,
                 self.conf.bugzilla_password,
             )
-        #print("{} Buglist: {}".format(pid, bug_list))
         for bug in bug_list:
             if not get_gitlab_issue(
                 self.conf.gitlab_base_url,
@@ -31,7 +30,10 @@ class Migrator:
                 self.conf.default_headers,
                 self.conf.verify,
             ):
-                self.migrate_one(bug, pid)
+                try:
+                    self.migrate_one(bug, pid)
+                except Exception as e:
+                    print("ERROR: unable to migrate bug {}: {}".format(bug, e))
             else:
                 print("{}: Skipping: Issue with id [{}] already exists".format(
                     pid,

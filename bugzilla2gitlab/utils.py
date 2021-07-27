@@ -43,12 +43,14 @@ def _perform_request(
             return result.json()
         return result
 
-    raise Exception(
-        "{} failed requests: [{}] Response: [{}] Request data: [{}] Url: [{}] Headers: [{}]".format(
-            result.status_code, result.reason, result.content, data, url, headers
+    if not b'Duplicated issue' in result.reason:
+        raise Exception(
+            "{} failed requests: [{}] Response: [{}] Request data: [{}] Url: [{}] Headers: [{}]".format(
+                result.status_code, result.reason, result.content, data, url, headers
+            )
         )
-    )
-
+    else:
+        return "Error: ignored, duplicate, race condition"
 
 def markdown_table_row(key, value):
     """
